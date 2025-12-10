@@ -22,7 +22,7 @@ spec:
         payloadKey: '{.message}'
         rfc: RFC5424
         severity: warning
-        url: 'tcp://10.115.4.106:514'
+        url: 'tcp://192.168.1.100:514'
       type: syslog
     - lokiStack:
         authentication:
