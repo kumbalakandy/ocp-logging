@@ -1,0 +1,36 @@
+apiVersion: loki.grafana.com/v1
+kind: LokiStack
+metadata:
+  name: logging-loki
+  namespace: openshift-logging
+spec:
+  limits:
+   global: 
+      ingestion:
+        perStreamRateLimit: 5
+        perStreamRateLimitBurst: 20
+      retention: 
+        days: 3
+        streams:
+        - days: 2
+          priority: 1
+          selector: '{log_type="application"}'
+        - days: 1
+          priority: 1
+          selector: '{log_type="infrastructure"}'
+  managementState: Managed
+  replicationFactor: 2
+  size: 1x.small
+  storage:
+    schemas:
+    - version: v13
+      effectiveDate: "2025-01-01"
+    secret:
+      name: loki-s3-logging
+      type: s3
+      credentialMode: static
+    tls:
+       caName: loki-s3-ca 
+  storageClassName: aan-zdc-seha-edge-clu01-block-replica3
+  tenants:
+    mode: openshift-logging
